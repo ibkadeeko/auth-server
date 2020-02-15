@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /**
  * Validation error handler
  * @class
