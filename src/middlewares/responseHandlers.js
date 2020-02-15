@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import Debug from 'debug';
 import config from '../config';
 

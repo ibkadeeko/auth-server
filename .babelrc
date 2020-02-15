@@ -1,3 +1,4 @@
+// https://stackoverflow.com/questions/56682958/running-mocha-6-es6-tests-with-babel-7-how-to-set-up
 {
   "presets": [
     [
@@ -7,5 +8,18 @@
       }
     ]
   ],
-  "plugins": ["@babel/plugin-proposal-object-rest-spread"]
+  "plugins": ["@babel/transform-runtime", "@babel/proposal-object-rest-spread"],
+  "env": {
+    "test": {
+      "plugins": [
+        [
+          "istanbul",
+          {
+            "exclude": ["**/*.spec.js", "**/*.test.js"],
+            "useInlineSourceMaps": false
+          }
+        ]
+      ]
+    }
+  }
 }

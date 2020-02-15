@@ -5,11 +5,13 @@
   "main": "dist/server.js",
   "scripts": {
     "build": "rimraf dist && babel src --out-dir dist",
-    "start": "node dist/server.js",
-    "restart": "npm run build && npm run start",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "dev": "DEBUG='api:*' nodemon --exec npm run restart",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "sync-env": "sync-dotenv"
+    "restart": "npm run build && npm run start",
+    "start": "node dist/server.js",
+    "sync-env": "sync-dotenv",
+    "test": "cross-env NODE_ENV=test mocha --require @babel/register --require regenerator-runtime/runtime src/**/*.test.js --exit",
+    "test:coverage": "nyc npm run test"
   },
   "repository": {
     "type": "git",
@@ -26,6 +28,7 @@
   },
   "homepage": "https://github.com/ibkadeeko/auth-server#readme",
   "dependencies": {
+    "@babel/runtime": "^7.8.4",
     "bcrypt": "^3.0.8",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
@@ -43,22 +46,29 @@
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.4",
-    "@babel/runtime": "^7.8.4",
     "babel-eslint": "^10.0.3",
+    "babel-plugin-istanbul": "^6.0.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "coveralls": "^3.0.9",
+    "cross-env": "^7.0.0",
     "eslint": "^6.8.0",
     "eslint-config-import": "^0.13.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^0.13.0",
     "eslint-plugin-prettier": "^3.1.2",
     "husky": "^4.2.3",
+    "mocha": "^7.0.1",
+    "nyc": "^15.0.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
     "sync-dotenv": "^2.4.0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run sync-env"
+      "pre-commit": "npm run sync-env && npm run test:coverage"
     }
   }
 }
